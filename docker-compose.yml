@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - regisdb:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: regis
+
+  minio:
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - regisfiles:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+volumes:
+  regisfiles:
+  regisdb:
